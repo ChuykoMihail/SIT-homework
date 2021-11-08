@@ -22,11 +22,13 @@ class Task
      */
     private $task_text;
 
+
+
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $owner;
+    private $Owner;
 
     public function getId(): ?int
     {
