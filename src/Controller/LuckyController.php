@@ -7,12 +7,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use App\Entity\Task;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Repository\UserRepository;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use function Symfony\Component\String\s;
+use Symfony\Component\Security\Core\Security;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
 
 class LuckyController extends AbstractController
 {
@@ -21,18 +26,20 @@ class LuckyController extends AbstractController
 
 
     /**
-     * @Route("/todo", name="task_list")
+     * @Route("api/todo", name="task_list")
      */
     public function tasksList(Request $request, UserRepository $userRepository, TaskRepository $taskRepository): Response
     {
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
+
+
+
 
         $entityManager = $this->getDoctrine()->getManager();
         if($request->getMethod() == 'GET') {
-            $tasks = $user->getTasks();
+            $user = $this->getUser();
+            $tasks = $user->getTaskss();
             if(sizeof($tasks) == 0){
                 $mresponse["message"] = "There is no tasks";
             } else{
@@ -45,20 +52,27 @@ class LuckyController extends AbstractController
             return new Response(
                 json_encode($mresponse)
             );
-        }else if($request->getMethod() == 'POST'){
 
-            $taskText = $request->request->get('text');
+
+        }else if($request->getMethod() == 'POST'){
+            $data = json_decode(
+                $request->getContent(),
+                true
+            );
+            $user = $this->getUser();
+
+
+            $taskText = $data['taskText'];
 
             $task = new Task();
             $task->setTaskText($taskText);
 
-            $user->addTask($task);
-            //$entityManager->persist($task);
-            //$entityManager->flush();
+            $user->addTaskss($task);
+            $entityManager->persist($task);
+            $entityManager->flush();
 
             $mresponse["message"] = "Task added.";
             $mresponse["task_text"] = $taskText;
-            $mresponse["task_owner"] = $user;
             return new Response(
                 json_encode($mresponse)
             );
@@ -73,18 +87,17 @@ class LuckyController extends AbstractController
 
 
     /**
-     * @Route("/todo/{task_id}", name="task_managment")
+     * @Route("api/todo/{task_id}", name="task_managment")
      */
     public function taskManagment(Request $request,TaskRepository $taskRepository, int $task_id): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
+
 
         $entityManager = $this->getDoctrine()->getManager();
-
         $checkTask = $taskRepository->find($task_id);
-        if($checkTask->getOwner() == $user){
+        $user = $this->getUser();
+        if($checkTask->getOnwer() == $user){
             if($request->getMethod() == 'DELETE'){
 
                 $entityManager->remove($checkTask);
@@ -96,7 +109,11 @@ class LuckyController extends AbstractController
                 );
 
             }else{
-                $newText = $request->get('new_text');
+                $data = json_decode(
+                    $request->getContent(),
+                    true
+                );
+                $newText = $data['new_text'];
                 $checkTask->setTaskText($newText);
                 $entityManager->flush();
                 $mresponse["message"] = "Task updated.";

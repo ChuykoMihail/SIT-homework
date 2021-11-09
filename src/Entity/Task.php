@@ -25,10 +25,10 @@ class Task
 
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="taskss")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $Owner;
+    private $onwer;
 
     public function getId(): ?int
     {
@@ -46,15 +46,16 @@ class Task
 
         return $this;
     }
+    
 
-    public function getOwner(): ?User
+    public function getOnwer(): ?User
     {
-        return $this->owner;
+        return $this->onwer;
     }
 
-    public function setOwner(?User $owner): self
+    public function setOnwer(?User $onwer): self
     {
-        $this->owner = $owner;
+        $this->onwer = $onwer;
 
         return $this;
     }

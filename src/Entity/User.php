@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Entity\Task;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -40,13 +41,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="Owner", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="onwer", orphanRemoval=true)
      */
-    private $tasks;
+    private $taskss;
+    
 
     public function __construct()
     {
-        $this->tasks = new ArrayCollection();
+        $this->taskss = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -138,30 +140,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+
     /**
      * @return Collection|Task[]
      */
-    public function getTasks(): Collection
+    public function getTaskss(): Collection
     {
-        return $this->tasks;
+        return $this->taskss;
     }
 
-    public function addTask(Task $task): self
+    public function addTaskss(Task $taskss): self
     {
-        if (!$this->tasks->contains($task)) {
-            $this->tasks[] = $task;
-            $task->setOwner($this);
+        if (!$this->taskss->contains($taskss)) {
+            $this->taskss[] = $taskss;
+            $taskss->setOnwer($this);
         }
 
         return $this;
     }
 
-    public function removeTask(Task $task): self
+    public function removeTaskss(Task $taskss): self
     {
-        if ($this->tasks->removeElement($task)) {
+        if ($this->taskss->removeElement($taskss)) {
             // set the owning side to null (unless already changed)
-            if ($task->getOwner() === $this) {
-                $task->setOwner(null);
+            if ($taskss->getOnwer() === $this) {
+                $taskss->setOnwer(null);
             }
         }
 
