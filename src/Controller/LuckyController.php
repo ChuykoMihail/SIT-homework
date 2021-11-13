@@ -48,7 +48,7 @@ class LuckyController extends AbstractController
                 }
             }
 
-            $mresponse["task_owner"]=$user;
+            //$mresponse["task_owner"]=$user->getEmail();
             return new Response(
                 json_encode($mresponse)
             );

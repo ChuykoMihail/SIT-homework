@@ -64,6 +64,8 @@ class ApiLoginController extends AbstractController
         );
 
 
+        $entityManager = $this->getDoctrine()->getManager();
+
         $password = $data['password'];
         $email = $data['email'];
         $user = new User();
@@ -77,13 +79,10 @@ class ApiLoginController extends AbstractController
                'error' => 'This name is already used'
             ]);
         }else{
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            $entityManager->persist($user);
+            $entityManager->flush();
             return $this->json([
-                'user' => $user->getEmail(),
-                'password' =>$user->getPassword()
-                //'password' => $password
+                "message"=>"success"
             ]);
         }
 
