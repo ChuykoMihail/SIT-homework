@@ -23,6 +23,7 @@ class ResponseWithContentType
            "mp4"=>"video/mp4",
            "doc"=>"application/msword",
            "pdf"=>"application/pdf"
+           
        ];
         $response = new BinaryFileResponse ($this -> uploadsPath."/".$file->getFileName());
         $response->headers->set ( 'Content-Type', $MemeTypes[$file->getFileType()]);

@@ -14,6 +14,7 @@ class FileNameGenerator
     }
     public function uploadFile(UploadedFile $uploadedFile): array
     {
+        
         $destination = $this->uploadsPath;
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
         $type = $uploadedFile->guessExtension();
