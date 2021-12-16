@@ -1,5 +1,7 @@
 <?php
+
 // src/Controller/LuckyController.php
+
 namespace App\Controller;
 
 use App\Entity\File;
@@ -18,58 +20,53 @@ use App\Repository\UserRepository;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use function Symfony\Component\String\s;
 use Symfony\Component\Security\Core\Security;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Service\FileNameGenerator;
 use App\Service\ResponseWithContentType;
+use function Symfony\Component\String\s;
 
 class LuckyController extends AbstractController
 {
-
-
-
-
     /**
      * @Route("api/todo", name="task_list")
      */
     public function tasksList(Request $request, UserRepository $userRepository, TaskRepository $taskRepository): Response
     {
-
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
 
 
 
         $entityManager = $this->getDoctrine()->getManager();
-        if($request->getMethod() == 'GET') {
+        if ($request->getMethod() == 'GET') {
             $user = $this->getUser();
             $tasks = $user->getTaskss();
-            if(sizeof($tasks) == 0){
+            if (sizeof($tasks) == 0) {
                 $mresponse["message"] = "There is no tasks";
-            } else{
-                $items=array();
-                foreach ($tasks as $task){
+            } else {
+                $items=[];
+                foreach ($tasks as $task) {
                     $task_item["id"] = $task->getId();
                     $task_item["text"] = $task->getTaskText();
-                    array_push($items,$task_item);
+                    array_push($items, $task_item);
                 }
                 $mresponse["items"] = $items;
             }
+            return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
+        } elseif ($request->getMethod() == 'POST') {
+            if (gettype($request->getContent()) == "string") {
+                $content = (string)$request->getContent();
+                $data = json_decode(
+                    $content,
+                    true
+                );
+            } else {
+                $mresponse["message"] = "Bad Request content";
+                return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
+            }
 
-            //$mresponse["task_owner"]=$user->getEmail();
-            return new Response(
-                json_encode($mresponse)
-                
-            );
-
-
-        }else if($request->getMethod() == 'POST'){
-            $data = json_decode(
-                $request->getContent(),
-                true
-            );
             $user = $this->getUser();
 
 
@@ -84,15 +81,10 @@ class LuckyController extends AbstractController
 
             $mresponse["message"] = "Task added.";
             $mresponse["task_text"] = $taskText;
-            return new Response(
-                json_encode($mresponse)
-            );
-
-        } else{
+            return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
+        } else {
             $mresponse["message"] = "Wrong request type.";
-            return new Response(
-                json_encode($mresponse)
-            );
+            return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
         }
     }
 
@@ -100,7 +92,7 @@ class LuckyController extends AbstractController
     /**
      * @Route("api/todo/{task_id}", name="task_managment")
      */
-    public function taskManagment(Request $request,TaskRepository $taskRepository, int $task_id): Response
+    public function taskManagment(Request $request, TaskRepository $taskRepository, int $task_id): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -108,44 +100,34 @@ class LuckyController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $checkTask = $taskRepository->find($task_id);
         $user = $this->getUser();
-        if($checkTask->getOnwer() == $user){
-            if($request->getMethod() == 'DELETE'){
-
+        if ($checkTask->getOnwer() == $user) {
+            if ($request->getMethod() == 'DELETE') {
                 $entityManager->remove($checkTask);
                 $entityManager->flush();
 
                 $mresponse["message"] = "Task deleted.";
-                return new Response(
-                    json_encode($mresponse)
-                );
-
-            }else{
+                return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
+            } else {
                 $data = json_decode(
-                    $request->getContent(),
+                    (string)$request->getContent(),
                     true
                 );
                 $newText = $data['new_text'];
                 $checkTask->setTaskText($newText);
                 $entityManager->flush();
                 $mresponse["message"] = "Task updated.";
-                return new Response(
-                    json_encode($mresponse)
-                );
+                return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
             }
         } else {
             $mresponse["message"] = "Access denied";
-            return new Response(
-                json_encode($mresponse)
-            );
+            return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
         }
-
     }
     /**
      * @Route("api/files/upload", name="files_upload")
      */
-    public function uploadFiles(Request $request, FileRepository $fileRepository, FileNameGenerator $nameGenerator){
-
-
+    public function uploadFiles(Request $request, FileRepository $fileRepository, FileNameGenerator $nameGenerator): Response
+    {
         $newFile = $request->files->get("uploaded_file");
         $destination = $this->getParameter('uploads_directory');
         $fileForDoctrine = new File();
@@ -164,10 +146,11 @@ class LuckyController extends AbstractController
     /**
      * @Route("api/files/list", name="files_list")
      */
-    public function viewFiles(Request $request,FileRepository $fileRepository){
+    public function viewFiles(Request $request, FileRepository $fileRepository): Response
+    {
         $listOfFiles = $fileRepository->findAll();
         $array = [];
-        foreach ($listOfFiles as $file){
+        foreach ($listOfFiles as $file) {
             $array[$file->getId()] = $file->getFileName();
         }
         $mresponse = new JsonResponse($array, 200);
@@ -176,27 +159,21 @@ class LuckyController extends AbstractController
     /**
      * @Route("api/files/{id}", name="files_edit")
      */
-    public function editFiles(Request $request, FileRepository $fileRepository, int $id, ResponseWithContentType $contentType){
-        if($request->getMethod() == "DELETE"){
-
+    public function editFiles(Request $request, FileRepository $fileRepository, int $id, ResponseWithContentType $contentType): Response
+    {
+        if ($request->getMethod() == "DELETE") {
             $file = $fileRepository->find($id);
-            unlink($this->getParameter("uploads_directory")."/".$file->getFileName());
+            unlink((string)$this->getParameter("uploads_directory")."/".$file->getFileName());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($file);
             $entityManager->flush();
-            $mresponse = new JsonResponse(["message"=>"file deleted"],200);
+            $mresponse = new JsonResponse(["message"=>"file deleted"], 200);
             return $mresponse;
-        }else if($request->getMethod() == "GET"){
-
+        } elseif ($request->getMethod() == "GET") {
             $file = $fileRepository->find($id);
             return $contentType->makeResponse($file);
-
         }
         $mresponse = new JsonResponse(["message" => "wrong request type"], 200);
         return $mresponse;
     }
-
-
-
-
 }

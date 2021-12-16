@@ -44,7 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=Task::class, mappedBy="onwer", orphanRemoval=true)
      */
     private $taskss;
-    
+
 
     public function __construct()
     {

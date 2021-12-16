@@ -2,6 +2,12 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
+    "composer/pcre": {
+        "version": "1.0.0"
+    },
+    "composer/xdebug-handler": {
+        "version": "2.0.3"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -124,6 +130,9 @@
     "nikic/php-parser": {
         "version": "v4.13.0"
     },
+    "pdepend/pdepend": {
+        "version": "2.10.2"
+    },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
     },
@@ -132,6 +141,12 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.5.0"
+    },
+    "phpmd/phpmd": {
+        "version": "2.11.0"
+    },
+    "phpstan/phpstan": {
+        "version": "1.2.0"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -529,6 +544,9 @@
     },
     "symfony/yaml": {
         "version": "v5.3.6"
+    },
+    "symplify/easy-coding-standard": {
+        "version": "10.0.2"
     },
     "twig/extra-bundle": {
         "version": "v3.3.3"

@@ -13,7 +13,6 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Firebase\JWT\JWT;
 
-
 /**
  * @Route("/api")
  */
@@ -24,7 +23,8 @@ class ApiLoginController extends AbstractController
     /**
      * @Route("/login", name="api_login", methods={"POST"})
      */
-    public function login( Request $request, UserRepository $userRepository, UserPasswordHasherInterface $encoder): Response {
+    public function login(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $encoder): Response
+    {
         $data = json_decode(
             $request->getContent(),
             true
@@ -56,7 +56,7 @@ class ApiLoginController extends AbstractController
     /**
      * @Route("/register", name="register", methods={"POST"})
      */
-    public function register(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $encoder) :Response
+    public function register(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $encoder): Response
     {
         $data = json_decode(
             $request->getContent(),
@@ -69,22 +69,21 @@ class ApiLoginController extends AbstractController
         $password = $data['password'];
         $email = $data['email'];
         $user = new User();
-        $user->setPassword($encoder->hashPassword($user,$password));
+        $user->setPassword($encoder->hashPassword($user, $password));
         $user->setEmail($email);
 
         //$checkUser = $userRepository->findOneBy(['email'=>$email]);
 
-        if($userRepository->findOneBy(['email'=>$email])){
+        if ($userRepository->findOneBy(['email'=>$email])) {
             return $this->json([
                'error' => 'This name is already used'
             ]);
-        }else{
+        } else {
             $entityManager->persist($user);
             $entityManager->flush();
             return $this->json([
                 "message"=>"success"
             ]);
         }
-
     }
 }

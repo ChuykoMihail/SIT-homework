@@ -46,7 +46,7 @@ class Task
 
         return $this;
     }
-    
+
 
     public function getOnwer(): ?User
     {
