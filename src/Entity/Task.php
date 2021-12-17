@@ -15,12 +15,12 @@ class Task
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $task_text;
+    private string $task_text;
 
 
 
@@ -28,7 +28,7 @@ class Task
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="taskss")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $onwer;
+    private User $onwer;
 
     public function getId(): ?int
     {

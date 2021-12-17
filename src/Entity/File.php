@@ -15,22 +15,22 @@ class File
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $FileName;
+    private string $FileName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $FileType;
+    private string $FileType;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $FilePath;
+    private string $FilePath;
 
     public function getId(): ?int
     {
