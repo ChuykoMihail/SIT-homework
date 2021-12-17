@@ -55,7 +55,12 @@ class LuckyController extends AbstractController
                 }
                 $mresponse["items"] = $items;
             }
-            return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
+            return json_encode($mresponse) ?
+                new Response(json_encode($mresponse)) :
+                new Response(
+                    "mresponse error",
+                    200
+                );
         } elseif ($request->getMethod() == 'POST') {
             if (gettype($request->getContent()) == "string") {
                 $content = (string)$request->getContent();
@@ -65,7 +70,12 @@ class LuckyController extends AbstractController
                 );
             } else {
                 $mresponse["message"] = "Bad Request content";
-                return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
+                return json_encode($mresponse) ?
+                    new Response(json_encode($mresponse)) :
+                    new Response(
+                        "mresponse error",
+                        200
+                    );
             }
 
             $user = $this->getUser();
@@ -82,10 +92,20 @@ class LuckyController extends AbstractController
 
             $mresponse["message"] = "Task added.";
             $mresponse["task_text"] = $taskText;
-            return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
+            return json_encode($mresponse) ?
+                new Response(json_encode($mresponse)) :
+                new Response(
+                    "mresponse error",
+                    200
+                );
         } else {
             $mresponse["message"] = "Wrong request type.";
-            return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
+            return json_encode($mresponse) ?
+                new Response(json_encode($mresponse)) :
+                new Response(
+                    "mresponse error",
+                    200
+                );
         }
     }
 
@@ -107,7 +127,12 @@ class LuckyController extends AbstractController
                 $entityManager->flush();
 
                 $mresponse["message"] = "Task deleted.";
-                return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
+                return json_encode($mresponse) ?
+                    new Response(json_encode($mresponse)) :
+                    new Response(
+                        "mresponse error",
+                        200
+                    );
             } else {
                 $data = json_decode(
                     (string)$request->getContent(),
@@ -117,11 +142,21 @@ class LuckyController extends AbstractController
                 $checkTask->setTaskText($newText);
                 $entityManager->flush();
                 $mresponse["message"] = "Task updated.";
-                return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
+                return json_encode($mresponse) ?
+                    new Response(json_encode($mresponse)) :
+                    new Response(
+                        "mresponse error",
+                        200
+                    );
             }
         } else {
             $mresponse["message"] = "Access denied";
-            return json_encode($mresponse) ? new Response(json_encode($mresponse)) : new Response("mresponse error", 200);
+            return json_encode($mresponse) ?
+                new Response(json_encode($mresponse)) :
+                new Response(
+                    "mresponse error",
+                    200
+                );
         }
     }
     /**
@@ -140,7 +175,10 @@ class LuckyController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($fileForDoctrine);
         $entityManager->flush();
-        $mresponse = new JsonResponse(["message" => "OK"], 200);
+        $mresponse = new JsonResponse(
+            ["message" => "OK"],
+            200
+        );
         return $mresponse;
     }
 
@@ -164,17 +202,25 @@ class LuckyController extends AbstractController
     {
         if ($request->getMethod() == "DELETE") {
             $file = $fileRepository->find($id);
-            unlink((string)$this->getParameter("uploads_directory")."/".$file->getFileName());
+            unlink((string)$this->getParameter(
+                "uploads_directory")."/".$file->getFileName()
+            );
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($file);
             $entityManager->flush();
-            $mresponse = new JsonResponse(["message"=>"file deleted"], 200);
+            $mresponse = new JsonResponse(
+                ["message"=>"file deleted"],
+                200
+            );
             return $mresponse;
         } elseif ($request->getMethod() == "GET") {
             $file = $fileRepository->find($id);
             return $contentType->makeResponse($file);
         }
-        $mresponse = new JsonResponse(["message" => "wrong request type"], 200);
+        $mresponse = new JsonResponse(
+            ["message" => "wrong request type"],
+            200
+        );
         return $mresponse;
     }
     /**
