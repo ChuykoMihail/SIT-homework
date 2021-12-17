@@ -6,6 +6,7 @@
 parameters:
     jwt_secret: '%env(base64:JWT_SECRET_KEY)%'
     uploads_directory: '%kernel.project_dir%/public/uploads/'
+    current_enviroment: '%env(APP_ENV)%'
 
 services:
     # default configuration for services in *this* file
@@ -23,6 +24,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+    App\Service\ShowEnv:
+        arguments:
+            $curr_env : 'prod'
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

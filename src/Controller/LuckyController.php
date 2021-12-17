@@ -26,6 +26,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use App\Service\FileNameGenerator;
 use App\Service\ResponseWithContentType;
 use function Symfony\Component\String\s;
+use App\Service\ShowEnv;
 
 class LuckyController extends AbstractController
 {
@@ -174,6 +175,18 @@ class LuckyController extends AbstractController
             return $contentType->makeResponse($file);
         }
         $mresponse = new JsonResponse(["message" => "wrong request type"], 200);
+        return $mresponse;
+    }
+    /**
+     * @Route("api/health", name="show_enviroment")
+     */
+    public function new(ShowEnv $mEnv):Response
+    {
+
+        $mresponse = new JsonResponse(
+            ["message" => $mEnv->getEnv()],
+            200
+        );
         return $mresponse;
     }
 }
