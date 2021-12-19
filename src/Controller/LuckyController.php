@@ -235,4 +235,16 @@ class LuckyController extends AbstractController
         );
         return $mresponse;
     }
+    /**
+     * @Route("api/test_change", name="testing_changes")
+     */
+     public function test():Response
+    {
+
+        $mresponse = new JsonResponse(
+            ["message" => "It's working"],
+            200
+        );
+        return $mresponse;
+    }
 }
