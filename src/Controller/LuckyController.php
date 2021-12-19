@@ -235,4 +235,17 @@ class LuckyController extends AbstractController
         );
         return $mresponse;
     }
+    /**
+     * @Route("api/test", name="test")
+     */
+    public function new(ShowEnv $mEnv):Response
+    {
+
+        $mresponse = new JsonResponse(
+            ["message" => $mEnv->getEnv()." test"],
+            200
+        );
+        return $mresponse;
+    }
+    
 }
