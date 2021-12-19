@@ -240,9 +240,8 @@ class LuckyController extends AbstractController
      */
     public function test(ShowEnv $mEnv):Response
     {
-
         $mresponse = new JsonResponse(
-            ["message" => $mEnv->getEnv()." test"],
+            ["message" => $mEnv->getEnv()." test for deploy"],
             200
         );
         return $mresponse;
