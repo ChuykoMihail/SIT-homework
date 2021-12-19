@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileNameGenerator
 {
-    private string $_uploadsPath;
+    private $_uploadsPath;
 
     public function __construct(string $uploadsPath)
     {
