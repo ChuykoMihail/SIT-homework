@@ -238,7 +238,7 @@ class LuckyController extends AbstractController
     /**
      * @Route("api/test", name="test")
      */
-    public function new(ShowEnv $mEnv):Response
+    public function test(ShowEnv $mEnv):Response
     {
 
         $mresponse = new JsonResponse(
