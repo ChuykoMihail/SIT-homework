@@ -38,8 +38,6 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('task_list');
 
 
-
-
             
         }
 
