@@ -1,0 +1,12 @@
+#!/bin/bash
+
+commitMessage=$(cat $1)
+# получаем параметры последней команды из системной переменной
+
+pattern="\[[0-9]{1,}\]\s.+"
+#регулярное выражение для commit message
+
+if [[ ! "$commitMessage" =~ $pattern  ]]; then
+    echo "Error in commit message. Correct input format is: [issue id]message"
+    exit 1
+fi

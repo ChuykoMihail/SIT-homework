@@ -5,6 +5,9 @@
     "composer/pcre": {
         "version": "1.0.0"
     },
+    "composer/semver": {
+        "version": "3.2.6"
+    },
     "composer/xdebug-handler": {
         "version": "2.0.3"
     },
@@ -94,6 +97,18 @@
     "firebase/php-jwt": {
         "version": "v5.5.0"
     },
+    "friendsofphp/php-cs-fixer": {
+        "version": "3.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "be2103eb4a20942e28a6dd87736669b757132435"
+        },
+        "files": [
+            ".php-cs-fixer.dist.php"
+        ]
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
@@ -132,6 +147,9 @@
     },
     "pdepend/pdepend": {
         "version": "2.10.2"
+    },
+    "php-cs-fixer/diff": {
+        "version": "v2.0.2"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
