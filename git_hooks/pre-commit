@@ -5,6 +5,8 @@ m_command="git diff-tree --no-commit-id --name-only -r HEAD"
 output=$(eval "$m_command")
 #IFS1="$IFS"; IFS=$"\n"; read -r -a array <<< "$output"; IFS="$IFS1"
 regex="\.php"
+cd ../
+echo $(eval "ls")
 for index in $output
 do
     if [[ $index =~ $regex ]]; then
@@ -12,3 +14,4 @@ do
         echo $(eval "$your_command_string")
     fi
 done
+
