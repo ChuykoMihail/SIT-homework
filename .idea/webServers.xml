@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d43220b1-fed0-450c-9530-b1c6211bd4ea" name="meme" url="http://165.22.93.105">
+        <fileTransfer accessType="SFTP" host="165.22.93.105" port="22" sshConfigId="772fba88-ecc9-4638-9ebc-c463a3a4001d" sshConfig="meme@165.22.93.105:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
