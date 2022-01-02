@@ -1,2 +1,8 @@
 # SIT-homework
-Homework for SIT
+### Лаба 1,3 (сервер) - ветка master
+
+### Лаба 2,4 (клиент) - другой репозиторий
+
+### Лаба 5 (improve it) - ветка improve it
+
+### Лаба 6-9 - ветка dic
