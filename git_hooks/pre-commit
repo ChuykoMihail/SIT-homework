@@ -1,0 +1,14 @@
+#!/bin/bash
+
+your_command_string="vendor/bin/php-cs-fixer fix --rules=@Symfony "
+m_command="git diff-tree --no-commit-id --name-only -r HEAD"
+output=$(eval "$m_command")
+#IFS1="$IFS"; IFS=$"\n"; read -r -a array <<< "$output"; IFS="$IFS1"
+regex="\.php"
+for index in $output
+do
+    if [[ $index =~ $regex ]]; then
+        your_command_string="${your_command_string} ${index}"
+        echo $(eval "$your_command_string")
+    fi
+done
