@@ -14,10 +14,20 @@ on:
 
 jobs:
   build-and-test:
+  
     runs-on: ubuntu-latest
+    
     steps:
       #получаем доступ к коду
       - uses: actions/checkout@v2
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: imagick, swoole
+      - name: Composer update
+        run: composer update
+        
       #устанавливаем зависимости
       - name: Composer install
         run: composer install
