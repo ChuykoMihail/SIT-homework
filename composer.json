@@ -17,6 +17,7 @@
         "lexik/jwt-authentication-bundle": "^2.14",
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpmd/phpmd": "^2.11",
+        "phpunit/phpunit": "^7",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/asset": "5.3.*",
         "symfony/console": "5.3.*",
