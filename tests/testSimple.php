@@ -4,7 +4,7 @@ namespace App\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-class HealthTest extends TestCase
+class testSimple extends TestCase
 {
 
     public function testIsKey(): void
