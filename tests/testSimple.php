@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class testSimple extends TestCase
 {
-
     public function testIsKey(): void
     {
         $this->assertArrayHasKey('foo', ['foo' => 'baz']);
