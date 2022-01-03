@@ -18,6 +18,10 @@ jobs:
     steps:
       #получаем доступ к коду
       - uses: actions/checkout@v2
+      
+      - name: Composer update
+        run: composer update
+        
       #устанавливаем зависимости
       - name: Composer install
         run: composer install
