@@ -1,0 +1,29 @@
+# This is a basic workflow to help you get started with Actions
+
+name: сi-cd
+
+on:
+#пайплайн будет запускаться при push и pull_request в ветке main
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    
+  #оставим возможность запускать пайплайн вручную  
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      #получаем доступ к коду
+      - uses: actions/checkout@v2
+      #устанавливаем зависимости
+      - name: Composer install
+        run: composer install
+      #очищаем кэш
+      - name: Cache clear
+        run: php bin/console cache:clear
+      #выполняем тестирование
+      - name: Unit testing
+        run: php ./vendor/bin/phpunit tests/testSimple
